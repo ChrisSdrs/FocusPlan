@@ -1,7 +1,6 @@
 package com.chrissid.FocusPlanBackend.domain;
 
 
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
@@ -103,12 +102,12 @@ public class Project {
     }
 
     @PrePersist
-    protected void onCreate(){
+    protected void onCreate() {
         this.created_At = new Date();
     }
 
     @PreUpdate
-    protected void onUpdate(){
+    protected void onUpdate() {
         this.updated_At = new Date();
     }
 
