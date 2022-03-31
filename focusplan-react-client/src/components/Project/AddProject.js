@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { createProject } from "../../actions/projectActions";
 
 class AddProject extends Component {
   constructor() {
@@ -7,16 +10,29 @@ class AddProject extends Component {
     this.state = {
       projectName: "",
       projectIdentifier: "",
-      projectDescription: "",
+      description: "",
       start_date: "",
       end_date: "",
     };
 
     this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
+  }
+
+  onSubmit(e) {
+    e.preventDefault();
+    const newProject = {
+      projectName: this.state.projectName,
+      projectIdentifier: this.state.projectIdentifier,
+      description: this.state.description,
+      start_date: this.state.start_date,
+      end_date: this.state.end_date,
+    };
+    this.props.createProject(newProject, this.props.history);
   }
 
   render() {
@@ -29,7 +45,7 @@ class AddProject extends Component {
                 Create / Edit Project form
               </h5>
               <hr />
-              <form>
+              <form onSubmit={this.onSubmit}>
                 <div className="form-group">
                   <input
                     type="text"
@@ -56,8 +72,8 @@ class AddProject extends Component {
                   <textarea
                     className="form-control form-control-lg"
                     placeholder="Project Description"
-                    name="projectDescription"
-                    value={this.state.projectDescription}
+                    name="description"
+                    value={this.state.description}
                     onChange={this.onChange}
                   ></textarea>
                 </div>
@@ -83,11 +99,12 @@ class AddProject extends Component {
                     onChange={this.onChange}
                   />
                 </div>
-
-                <input
+                <button
                   type="submit"
                   className="btn btn-primary btn-block mt-4"
-                />
+                >
+                  Submit
+                </button>
               </form>
             </div>
           </div>
@@ -97,4 +114,8 @@ class AddProject extends Component {
   }
 }
 
-export default AddProject;
+AddProject.propTypes = {
+  createProject: PropTypes.func.isRequired,
+};
+
+export default connect(null, { createProject })(AddProject);
